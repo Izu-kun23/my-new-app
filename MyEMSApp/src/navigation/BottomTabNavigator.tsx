@@ -1,8 +1,9 @@
-// src/navigation/BottomTabNavigator.tsx
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/Home';
-import { Home, Users, Settings } from 'lucide-react-native'; // Lucide icons
+
+import AppHeader from '../components/header'; // your custom header component
+import { Home, Users, Settings } from 'lucide-react-native';
 
 export type BottomTabParamList = {
   Home: undefined;
@@ -16,8 +17,16 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        header: () => {
+          // Map route names to header titles
+          const titleMap: Record<string, string> = {
+            Home: 'Dashboard',
+            Employees: 'Employees',
+            Settings: 'Settings',
+          };
+          return <AppHeader title={titleMap[route.name] || 'App'} />;
+        },
         tabBarIcon: ({ color, size }) => {
-          // Determine icon based on route
           let IconComponent = Home;
           if (route.name === 'Home') {
             IconComponent = Home;
@@ -26,7 +35,6 @@ const BottomTabNavigator = () => {
           } else if (route.name === 'Settings') {
             IconComponent = Settings;
           }
-
           return <IconComponent color={color} size={size} />;
         },
         tabBarActiveTintColor: '#007AFF',
@@ -35,14 +43,13 @@ const BottomTabNavigator = () => {
           position: 'absolute',
           marginLeft: 20,
           bottom: 20,
-          alignSelf: 'center',  // centers it horizontally
-          width: '90%',         // adjust this to 70% or 300 if you prefer fixed width
+          alignSelf: 'center',
+          width: '90%',
           elevation: 0,
           backgroundColor: '#fff',
           borderRadius: 50,
           height: 70,
           marginBottom: 10,
-          
           paddingBottom: 0,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 5 },
@@ -53,11 +60,12 @@ const BottomTabNavigator = () => {
           fontSize: 12,
           marginBottom: 5,
         },
-        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      {/* Add Employees and Settings later */}
+      {/* Uncomment these when ready */}
+      {/* <Tab.Screen name="Employees" component={EmployeesScreen} /> */}
+      {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
     </Tab.Navigator>
   );
 };
