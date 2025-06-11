@@ -10,6 +10,9 @@ const tasksData = [
   { task: 'Deploy to Production', employee: 'Michael Clark', from: 'David Wilson' },
 ];
 
+const animationDuration = 600;
+const animationDelayStart = 200;
+
 const HomeScreen = () => {
   const windowHeight = Dimensions.get('window').height;
 
@@ -23,7 +26,12 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         {/* Big Welcome Card */}
-        <Animatable.View animation="fadeInDown" duration={800} delay={200}>
+        <Animatable.View
+          animation="fadeInDown"
+          duration={animationDuration}
+          delay={animationDelayStart}
+          useNativeDriver
+        >
           <ImageBackground
             source={{
               uri: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
@@ -46,28 +54,46 @@ const HomeScreen = () => {
         </Animatable.View>
 
         {/* SuperCard */}
-        <Animatable.View animation="slideInUp" duration={800} delay={400}>
+        <Animatable.View
+          animation="fadeInUp"
+          duration={animationDuration}
+          delay={animationDelayStart + 250}
+          useNativeDriver
+        >
           <SuperCard />
         </Animatable.View>
 
         {/* Tasks Table */}
-        <View style={styles.tableContainer}>
+        <Animatable.View
+          animation="fadeInUp"
+          duration={animationDuration}
+          delay={animationDelayStart + 450}
+          useNativeDriver
+          style={styles.tableContainer}
+        >
           <Text style={styles.tableTitle}>Completed Tasks</Text>
 
           {/* Table Header */}
-          <View style={[styles.tableRow, styles.tableHeader]}>
+          <Animatable.View
+            animation="fadeInDown"
+            duration={animationDuration}
+            delay={animationDelayStart + 600}
+            useNativeDriver
+            style={[styles.tableRow, styles.tableHeader]}
+          >
             <Text style={[styles.tableCell, styles.headerCell, { flex: 2 }]}>Task</Text>
             <Text style={[styles.tableCell, styles.headerCell]}>Employee</Text>
             <Text style={[styles.tableCell, styles.headerCell]}>From</Text>
-          </View>
+          </Animatable.View>
 
           {/* Table Rows */}
           {tasksData.map(({ task, employee, from }, index) => (
             <Animatable.View
               key={index}
               animation="fadeInUp"
-              duration={600}
-              delay={600 + index * 150}
+              duration={animationDuration}
+              delay={animationDelayStart + 750 + index * 150}
+              useNativeDriver
               style={[
                 styles.tableRow,
                 index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd,
@@ -78,7 +104,7 @@ const HomeScreen = () => {
               <Text style={styles.tableCell}>{from}</Text>
             </Animatable.View>
           ))}
-        </View>
+        </Animatable.View>
       </ScrollView>
     </View>
   );

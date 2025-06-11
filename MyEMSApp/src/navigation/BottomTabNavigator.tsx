@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/Home';
+import SettingsScreen from '../screens/Settings';
 
 import AppHeader from '../components/header'; // your custom header component
 import { Home, Users, Settings } from 'lucide-react-native';
@@ -65,7 +66,7 @@ const BottomTabNavigator = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       {/* Uncomment these when ready */}
       {/* <Tab.Screen name="Employees" component={EmployeesScreen} /> */}
-      {/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+      <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
 };
