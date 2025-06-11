@@ -5,6 +5,7 @@ import SettingsScreen from '../screens/Settings';
 
 import AppHeader from '../components/header'; // your custom header component
 import { Home, Users, Settings } from 'lucide-react-native';
+import Employees from '../screens/Employees';
 
 export type BottomTabParamList = {
   Home: undefined;
@@ -65,7 +66,7 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       {/* Uncomment these when ready */}
-      {/* <Tab.Screen name="Employees" component={EmployeesScreen} /> */}
+      <Tab.Screen name="Employees" component={Employees} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );
