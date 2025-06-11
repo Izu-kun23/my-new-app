@@ -1,7 +1,7 @@
 // src/components/AppHeader.tsx
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { Search } from 'lucide-react-native';
+import { Search, BarChart2 } from 'lucide-react-native';
 
 interface AppHeaderProps {
   title?: string;
@@ -16,6 +16,11 @@ const AppHeader: React.FC<AppHeaderProps> = ({ title = 'Dashboard' }) => {
     setSearchText('');
   };
 
+  const onAnalyticsPress = () => {
+    // Add analytics action here (navigation, modal, etc)
+    console.log('Analytics icon pressed');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerRow}>
@@ -25,9 +30,15 @@ const AppHeader: React.FC<AppHeaderProps> = ({ title = 'Dashboard' }) => {
 
         <Text style={styles.title}>{title}</Text>
 
-        <TouchableOpacity onPress={toggleSearch} style={styles.searchButton}>
-          <Search size={24} color="#007AFF" />
-        </TouchableOpacity>
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity onPress={onAnalyticsPress} style={styles.iconCircle}>
+            <BarChart2 size={20} color="#007AFF" />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={toggleSearch} style={styles.iconCircle}>
+            <Search size={20} color="#007AFF" />
+          </TouchableOpacity>
+        </View>
       </View>
 
       {searchActive && (
@@ -74,9 +85,20 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '600',
+    paddingLeft: 60,
   },
-  searchButton: {
-    padding: 4,
+  iconsContainer: {
+    flexDirection: 'row',
+    gap: 12, // works only in React Native 0.71+, else use marginRight on iconCircle except last
+  },
+  iconCircle: {
+    backgroundColor: '#E6F0FF',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
   },
   searchInput: {
     marginTop: 10,
