@@ -1,100 +1,173 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import SuperCard from '../components/superCard';
 
-// Dummy data (for now)
-const summaryData = [
-  { label: 'Employees', value: 24 },
-  { label: 'Departments', value: 5 },
-  { label: 'Tasks', value: 12 },
+const tasksData = [
+  { task: 'Design UI Mockups', employee: 'Alice Johnson', from: 'Sarah Lee' },
+  { task: 'Backend API Setup', employee: 'John Doe', from: 'Mark Green' },
+  { task: 'Testing & QA', employee: 'Emma Brown', from: 'Olivia Smith' },
+  { task: 'Deploy to Production', employee: 'Michael Clark', from: 'David Wilson' },
 ];
 
 const HomeScreen = () => {
+  const windowHeight = Dimensions.get('window').height;
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.greeting}>Welcome back!</Text>
-      <Text style={styles.subtitle}>Here’s a quick overview:</Text>
+    <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContainer,
+          { minHeight: windowHeight * 0.8 }, // Keeps it from feeling too tall
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Big Welcome Card */}
+        <Animatable.View animation="fadeInDown" duration={800} delay={200}>
+          <ImageBackground
+            source={{
+              uri: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+            }}
+            style={styles.card}
+            imageStyle={{ borderRadius: 20 }}
+          >
+            <View style={styles.overlay}>
+              <Text style={styles.greeting}>Welcome back!</Text>
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.actionButton}>
+                  <Text style={styles.actionText}>View Reports</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.actionButton}>
+                  <Text style={styles.actionText}>Manage Tasks</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ImageBackground>
+        </Animatable.View>
 
-      {/* Summary Cards */}
-      <View style={styles.summaryContainer}>
-        {summaryData.map((item, index) => (
-          <View key={index} style={styles.card}>
-            <Text style={styles.cardValue}>{item.value}</Text>
-            <Text style={styles.cardLabel}>{item.label}</Text>
+        {/* SuperCard */}
+        <Animatable.View animation="slideInUp" duration={800} delay={400}>
+          <SuperCard />
+        </Animatable.View>
+
+        {/* Tasks Table */}
+        <View style={styles.tableContainer}>
+          <Text style={styles.tableTitle}>Completed Tasks</Text>
+
+          {/* Table Header */}
+          <View style={[styles.tableRow, styles.tableHeader]}>
+            <Text style={[styles.tableCell, styles.headerCell, { flex: 2 }]}>Task</Text>
+            <Text style={[styles.tableCell, styles.headerCell]}>Employee</Text>
+            <Text style={[styles.tableCell, styles.headerCell]}>From</Text>
           </View>
-        ))}
-      </View>
 
-      {/* Quick Actions */}
-      <View style={styles.quickActions}>
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionText}>Add Employee</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
-          <Text style={styles.actionText}>View Reports</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          {/* Table Rows */}
+          {tasksData.map(({ task, employee, from }, index) => (
+            <Animatable.View
+              key={index}
+              animation="fadeInUp"
+              duration={600}
+              delay={600 + index * 150}
+              style={[
+                styles.tableRow,
+                index % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd,
+              ]}
+            >
+              <Text style={[styles.tableCell, { flex: 2 }]}>{task}</Text>
+              <Text style={styles.tableCell}>{employee}</Text>
+              <Text style={styles.tableCell}>{from}</Text>
+            </Animatable.View>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
     backgroundColor: '#f9f9f9',
-    flexGrow: 1,
   },
-  greeting: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 16,
-  },
-  summaryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 24,
+  scrollContainer: {
+    padding: 16,
   },
   card: {
+    height: 220,
+    borderRadius: 20,
+    overflow: 'hidden',
+    justifyContent: 'center',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.35)',
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 16,
-    marginHorizontal: 5,
-    borderRadius: 12,
-    alignItems: 'center',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
+    borderRadius: 20,
+    padding: 20,
+    justifyContent: 'space-between',
   },
-  cardValue: {
-    fontSize: 20,
+  greeting: {
+    fontSize: 28,
     fontWeight: '700',
-    color: '#007AFF',
+    color: '#fff',
   },
-  cardLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-  },
-  quickActions: {
-    marginTop: 16,
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   actionButton: {
     backgroundColor: '#007AFF',
     paddingVertical: 14,
     borderRadius: 12,
+    flex: 0.48,
     alignItems: 'center',
-    marginBottom: 12,
   },
   actionText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  tableContainer: {
+    marginTop: 30,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    overflow: 'hidden',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+  },
+  tableTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#222',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+  },
+  tableHeader: {
+    backgroundColor: '#f0f0f0',
+  },
+  tableRowEven: {
+    backgroundColor: '#fff',
+  },
+  tableRowOdd: {
+    backgroundColor: '#f9f9f9',
+  },
+  tableCell: {
+    flex: 1,
+    fontSize: 13,
+    color: '#444',
+  },
+  headerCell: {
+    fontWeight: '700',
+    color: '#333',
   },
 });
 
