@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MyEMSApp",
-    "slug": "MyEMSApp",
+    "name": "vendari",
+    "slug": "vendari",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
